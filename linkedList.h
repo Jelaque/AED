@@ -1,14 +1,17 @@
+#ifndef linkedList
+#define linkedList
 #include <iostream>
 using namespace std;
 template<class T>
 class Node{
 	public:
+	  Node() {}
 		T value;
 		Node<T>* next;
 		Node(const T&);
 };
 template<class T>
-class LinkedList: public Node<T>{
+class LinkedList{
 	typedef Node<T>* pNode;
 	private:
 		pNode pHead;
@@ -29,19 +32,23 @@ class LinkedList: public Node<T>{
 		friend ostream& operator<<(ostream& output, const LinkedList<U>& o){
   		pNode temp=o->pHead;
   		for (;temp;temp=temp->next)
-    		output << temp->value << std::endl;
+    		output << temp->value << endl;
   		return output;
 		}
+		void insertedSort(T);
 //
 };
 template<class T>
-class DoubleNode: public Node<T>{
-	public: 
-		Node<T>* back;
+class DoubleNode{
+  typedef DoubleNode<T>* pDNode;
+	public:
+	  T value;
+		pDNode next;
+		pDNode back;
 		DoubleNode(const T&);
 };
 template<class T>
-class DoubleLinkedList: public DoubleNode<T>{
+class DoubleLinkedList{
 	typedef DoubleNode<T>* pDNode;
 	private:
 		pDNode pHead;
@@ -53,12 +60,16 @@ class DoubleLinkedList: public DoubleNode<T>{
     void popFront();
     void popBack();
     bool find(const T&);
-    template<class U>
-		friend ostream& operator<<(ostream& output, const LinkedList<U>& o){
+    void show();
+		friend ostream& operator<<(ostream& output, const DoubleLinkedList<T>& o){
   		pDNode temp=o->pHead;
-  		for (;temp;temp=temp->next)
-    		output << temp->value << std::endl;
+  		for (;temp!=NULL;temp=temp->next){
+    		output << temp->value << endl;
+  		}
   		return output;
 		}
 //
 };
+#define linkedListFunction
+#include "linkedList.cpp"
+#endif
