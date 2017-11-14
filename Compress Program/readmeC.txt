@@ -10,3 +10,7 @@ Programa Compress
 Alumnos:
 Jesus Lazo Quevedo
 Brayan Jean Pool Maguiña del Castillo
+
+COMO COMPILAR:
+ comando: g++ -std=c++11 main.cpp -o main -O2 -L/usr/X11R6/lib -lm -lpthread -lX11
+
