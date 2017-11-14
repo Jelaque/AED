@@ -1,5 +1,6 @@
 #include<fstream>
 #include<iostream>
+#include<string>
 typedef unsigned int IndexE;
 template<class T>
 class NodeE{
@@ -26,6 +27,24 @@ class SparseMatrixL{
         array_row[j] = 0;
       for(IndexE i = 0; i < columns; ++i)
         array_column[i] = 0;
+    }
+    SparseMatrixL(char * filename, IndexE r, IndexE c):rows(r), columns(c){ //constructor para construir la matriz esparsa de el archivo txt
+      array_row = new NodeE<T>*[rows];
+      array_column = new NodeE<T>*[columns];
+      for(IndexE j = 0; j < rows; ++j)
+        array_row[j] = 0;
+      for(IndexE i = 0; i < columns; ++i)
+        array_column[i] = 0;
+      IndexE i,j;
+      std::string value;
+      std::ifstream file(filename);
+      for(i = 0; i < rows; ++i){
+        for(j = 0; j < columns; ++j){
+          file<<value;
+          if(value == '1')
+            this->add(1,i,j);
+        }
+      }
     }
     void add(T, IndexE, IndexE);
     bool findRow(IndexE, IndexE, NodeE<T>**&);

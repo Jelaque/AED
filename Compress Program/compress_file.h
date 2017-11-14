@@ -1,6 +1,5 @@
 #include "sparse_matrix_ll.h"
 #include <fstream>
-#include <string>
 //#define cimg_display 0
 #include "CImg.h"
 using namespace cimg_library;
