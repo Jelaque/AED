@@ -50,20 +50,26 @@ template<class T>
 SingleNode<T>* Binomial_Heap<T>::get_min(){
 	SingleNode<T>* ptr = root;
 	SingleNode<T>* children = min->child;
-	if (ptr != min){
-		ptr = ptr->sibling;
-		while(ptr != min)
-			ptr = ptr->sibling;
-		Union_Heap(ptr,children);
+	if (children){
+		if (ptr != min){
+			while(ptr->sibling != min)
+				ptr = ptr->sibling;
+			Union_Heap(ptr,children);
+		}
+		else
+			root = children;
+		while(children->sibling){
+			children->parent = NULL;
+			children = children->sibling;
+		}
+		children->parent = NULL;
+		Union_Heap(children,min->sibling);
+		ptr = min;
+		merge(root);
+		balance(root);
 	}
 	else
-		root = children;
-	while(children->sibling)
-		children = children->sibling;
-	Union_Heap(children,min->sibling);
-	ptr = min;
-	merge(root);
-	balance(root);
+		root = root->sibling;
 	find_min();
 	return ptr;
 }
@@ -86,10 +92,10 @@ void Binomial_Heap<T>::find_min(){
 }
 template<class T>
 int Binomial_Heap<T>::length(SingleNode<T>* node){
-	int c=0;
+	int c = 0;
 	while(node){
 		++c;
-		node=node->sibling;
+		node = node->sibling;
 	}
 	return c;
 }

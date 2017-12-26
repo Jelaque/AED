@@ -16,12 +16,11 @@ class FNode{
   public:
     FNode(T _data): degree(0), data(_data), next(0), back(0), father(0), child(0), marked(white) {}
 };
-typedef int len_list;
+typedef size_t len_list;
 template<class T>
 class Fibonacci_Heap{
   typedef FNode<T>* f_node;
   private:
-    //f_node root;
     f_node min;
     len_list len;
     void Link_nodes(f_node, f_node);
@@ -33,12 +32,14 @@ class Fibonacci_Heap{
     Fibonacci_Heap(): min(0), len(0) {}
     void Insert(T);
     f_node Minimun();
-    f_node Extract_Min();
+    T& Extract_Min();
     void Decrease_Key(f_node, T);
     void Consolidate();
-    //void print();
+    size_t size();
     void Delete_Key(f_node, T);
 };
+template<class T>
+size_t Fibonacci_Heap<T>::size(){return len;}
 template<class T>
 int Fibonacci_Heap<T>::root_list(){
   int c = 0;
@@ -54,7 +55,7 @@ int Fibonacci_Heap<T>::root_list(){
   return c;
 }
 template<class T>
-FNode<T>* Fibonacci_Heap<T>::Extract_Min(){
+T& Fibonacci_Heap<T>::Extract_Min(){
   FNode<T>* s_min = min;
   if(min->next != min){
     if (min->child){
@@ -73,31 +74,13 @@ FNode<T>* Fibonacci_Heap<T>::Extract_Min(){
     min = min->child;
   if (min)
     min->father = NULL;
-  --len;
+  if(len>0)
+    --len;
   Consolidate();
-  return s_min;
+  return s_min->data;
 }
 template<class T>
 FNode<T>* Fibonacci_Heap<T>::Minimun() {return min;}
-/*template<class T>
-void Fibonacci_Heap<T>::print(){
-  FNode<T>* cur = min->next;
-  FNode<T>* c = min->child;
-  std::cout << min->data << std::endl;
-  while (c){
-    std::cout << c->data << std::endl;
-    c = c->child;
-  }
-  for(;cur!=min;cur = cur->next){
-    std::cout << cur->data << std::endl;
-    c = cur->child;
-    while (c){
-      std::cout << c->data << std::endl;
-      c = c->child;
-    }
-  }
-}
-*/
 template<class T>
 void Fibonacci_Heap<T>::Insert(T x){
   FNode<T>* new_node = new FNode<T>(x);

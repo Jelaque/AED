@@ -155,6 +155,4 @@ void SBT<T>::printRecursive(BNode<T>*node){
   }
 }
 template<class T>
-BNode<T>* SBT<T>::getHead(){
-  return root;
-}
+BNode<T>* SBT<T>::getHead(){return root;}

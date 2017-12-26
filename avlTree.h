@@ -13,14 +13,21 @@ template<class T>
 class AVLTree{
   private:
     AVLNode<T>* root;
+    AVLNode<T>* last;
+    void printRecursive(AVLNode<T>*);
   public:
-    AVLTree(): root=0;
+    AVLTree(): root(0) {}
     bool findNode(T d, AVLNode<T>**&p);
     bool addNode(T d);
     bool deleteNode(T d);
     AVLNode<T>* getFather(T d);
-    bool Balance(T d);
+    bool balance(T d);
+    AVLNode<T>* getHead();
+    void print();
 };
+template<class T>
+AVLNode<T>* AVLTree<T>::getHead() {return root;}
+template<class T>
 bool AVLTree<T>::findNode(T d, AVLNode<T>**&p){
   p=&root;
   while(*p){
@@ -35,13 +42,14 @@ bool AVLTree<T>::addNode(T d){
   AVLNode<T>**p;
   if(findNode(d,p)) return false;
   *p=new AVLNode<T>(d);
-  Balance(d);
+  last = *p;
+  balance(d);
   return true;
 }
 template<class T>
-AVLNode<T>* AVLNode<T>::getFather(T d){
+AVLNode<T>* AVLTree<T>::getFather(T d){
   AVLNode<T>**p=&root;
-  AVLNode<T>* dad=*p;
+  AVLNode<T>* dad=NULL;
   while(*p){
     if((*p)->data==d){
       return dad;
@@ -65,5 +73,18 @@ bool AVLTree<T>::balance(T d){
   else {
     ++getFather(d)->balance;
     balance(getFather(d)->data);
+  }
+}
+template<class T>
+void AVLTree<T>::print(){
+  AVLNode<T>* cur=this->root;
+  printRecursive(cur);
+}
+template<class T>
+void AVLTree<T>::printRecursive(AVLNode<T>*node){
+  if(node){
+    printRecursive(node->child[0]);
+    std::cout<<node->data<<" ";
+    printRecursive(node->child[1]);
   }
 }
